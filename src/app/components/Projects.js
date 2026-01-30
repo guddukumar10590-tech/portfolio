@@ -86,11 +86,81 @@ const projects = [
 
   return (
     <>
+      <style jsx>{`
+        /* PROJECTS SECTION LAYOUT */
+        .projects-timeline {
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        /* Dots on the center line */
+        .timeline-dot {
+          position: absolute;
+          width: 16px;
+          height: 16px;
+          background-color: var(--primary-color);
+          border: 4px solid var(--dark-bg);
+          border-radius: 50%;
+          z-index: 1;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        /* Position dots for left and right items */
+        .timeline-item .timeline-dot {
+          left: 50%;
+          margin-left: -8px;
+        }
+
+        .timeline-item.right .timeline-dot {
+          right: auto;
+          left: 50%;
+          margin-left: -8px;
+        }
+
+        /* Mobile Responsive */
+        @media screen and (max-width: 768px) {
+          .timeline-item {
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 60px;
+          }
+          
+          .project-card {
+            width: 90% !important;
+          }
+          
+          .timeline-dot {
+            position: static !important;
+            margin: 20px 0;
+            transform: none;
+          }
+        }
+
+        /* Ensure the cards have relative positioning so the Star Constellation finds them */
+        .project-card {
+          background: rgba(30, 41, 59, 0.7);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 20px;
+          overflow: hidden;
+          transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+          transform: translateY(-5px);
+          border-color: var(--primary-color);
+        }
+      `}</style>
+
+      <section id="projects" style={{ position: 'relative', padding: '100px 0' }}>
+      <div className="section-container">
+        <h2>My Projects</h2>
+      </div>
       <div className="projects-timeline">
         {projects.map((project) => (
           <ScrollReveal key={project.id}>
             <div className={`timeline-item ${project.position}`}>
-              
               <div
                 className="timeline-card project-card"
                 onClick={() =>
@@ -99,15 +169,18 @@ const projects = [
                 style={{ cursor: project.gallery.length ? "pointer" : "default" }}
               >
                 <div className="project-image">
-                  <img src={project.image} alt={project.title} />
+                  {/* Add 'constellation-node' class here */}
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="constellation-node" 
+                  />
                 </div>
-
                 <div className="project-content">
                   <h3>{project.title}</h3>
                   <p>{project.description}</p>
                 </div>
               </div>
-
               <div className="timeline-dot"></div>
             </div>
           </ScrollReveal>
@@ -157,6 +230,7 @@ const projects = [
           <img src={previewImage} alt="preview" />
         </div>
       )}
+    </section>
     </>
   );
 }

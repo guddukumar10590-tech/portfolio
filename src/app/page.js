@@ -6,6 +6,7 @@ import CertificateModal from './components/CertificateModal';
 import Projects from './components/Projects';
 import Moon from './components/Moon';
 import Navigation from './components/Navigation';
+import StarConstellation from './components/StarConstellation';
 
 export default function Home() {
   const stripRef = useRef(null);
@@ -31,6 +32,7 @@ export default function Home() {
   return (
     <main className="main-container">
       <Moon />
+      <StarConstellation />
       <Navigation />
 
       {/* HERO SECTION */}
@@ -114,12 +116,7 @@ export default function Home() {
       </section>
 
       {/* PROJECTS */}
-      <section className="projects" id="projects">
-        <div className="section-container">
-          <h2>My Projects</h2>
-          <Projects />
-        </div>
-      </section>
+      <Projects />
 
       {/* CERTIFICATES */}
       <section className="certificates" id="certificates">

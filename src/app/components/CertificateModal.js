@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
 import ScrollReveal from './ScrollReveal';
 
 const CERTIFICATES = [
@@ -70,135 +69,131 @@ export default function CertificateModal() {
 
   return (
     <>
-      <div className="certificates-timeline">
+      <div className="projects-timeline">
         {CERTIFICATES.map(cert => (
           <ScrollReveal key={cert.id}>
             <div className={`timeline-item ${cert.position}`}>
               
-              {cert.position === 'right' && (
-                <Content {...cert} />
-              )}
-
-              <button
-                className="timeline-card"
+              <div
+                className="timeline-card project-card"
                 onClick={() => setActiveId(cert.id)}
-                aria-label={`View certificate for ${cert.title}`}
+                style={{ cursor: "pointer" }}
               >
-                <div className="certificate-image">
-                  <Image
-                    src={cert.image}
-                    alt={cert.title}
-                    fill
-                    sizes="260px"
-                    priority={cert.id === 1}
+                <div className="project-image">
+                  <img 
+                    src={cert.image} 
+                    alt={cert.title} 
+                    className="constellation-node"
                   />
                 </div>
-              </button>
 
-              <div className="timeline-dot" />
+                <div className="project-content">
+                  <h3>{cert.title}</h3>
+                  <p>{cert.description}</p>
+                </div>
+              </div>
 
-              {cert.position === 'left' && (
-                <Content {...cert} />
-              )}
+              <div className="timeline-dot"></div>
             </div>
           </ScrollReveal>
         ))}
       </div>
 
       {activeCert && (
-        <div className="certificate-modal-overlay" onClick={closeModal}>
+        <div
+          className="project-modal-overlay"
+          onClick={() => setActiveId(null)}
+        >
           <div
-            className="certificate-modal-content"
+            className="project-modal"
             onClick={(e) => e.stopPropagation()}
           >
-            <button className="certificate-close-btn" onClick={closeModal}>
+            <button
+              className="close-btn"
+              onClick={() => setActiveId(null)}
+            >
               ✕
             </button>
 
-            <Image
-              src={activeCert.image}
-              alt={activeCert.title}
-              width={1100}
-              height={750}
-              className="modal-image"
-            />
+            <h3>{activeCert.title}</h3>
+
+            <div className="gallery-grid">
+              <img
+                src={activeCert.image}
+                alt={activeCert.title}
+                className="modal-image"
+              />
+            </div>
           </div>
         </div>
       )}
 
       <style jsx>{`
-        .timeline-item {
-          display: grid;
-          grid-template-columns: 1fr auto 1fr;
-          gap: 30px;
-          margin-bottom: 90px;
-          align-items: center;
+        .project-card {
+          background: rgba(30, 41, 59, 0.7);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 20px;
+          overflow: hidden;
+          transition: transform 0.3s ease;
         }
 
-        .timeline-content {
-          max-width: 440px;
+        .project-card:hover {
+          transform: translateY(-5px);
+          border-color: var(--primary-color);
+        }
+
+        .project-image {
+          position: relative;
+          width: 100%;
+          height: 200px;
+          overflow: hidden;
+        }
+
+        .project-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .project-content {
+          padding: 20px;
           color: #fff;
         }
 
-        .timeline-content h3 {
+        .project-content h3 {
           font-size: 1.25rem;
           font-weight: 600;
           margin-bottom: 12px;
+          color: #6c7cff;
         }
 
-        .timeline-content p {
+        .project-content p {
           font-size: 0.95rem;
           line-height: 1.65;
           opacity: 0.9;
         }
 
-        .timeline-card {
-          background: none;
-          border: none;
-          cursor: pointer;
-        }
-
-        .certificate-image {
-          position: relative;
-          width: 260px;
-          height: 180px;
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        }
-
-        .timeline-dot {
-          width: 14px;
-          height: 14px;
-          background: #6c7cff;
-          border-radius: 50%;
-        }
-
-        @media (max-width: 768px) {
+        /* Mobile Responsive */
+        @media screen and (max-width: 768px) {
           .timeline-item {
-            grid-template-columns: 1fr;
-            gap: 20px;
+            flex-direction: column;
+            align-items: center;
             margin-bottom: 60px;
-            text-align: center;
           }
-
-          .timeline-content {
-            order: 1;
-            max-width: 100%;
+          
+          .project-card {
+            width: 90% !important;
           }
-
-          .timeline-card {
-            order: 2;
-          }
-
-          .certificate-image {
-            width: 100%;
-            max-width: 300px;
-            height: 200px;
+          
+          .timeline-dot {
+            position: static !important;
+            margin: 20px 0;
+            transform: none;
           }
         }
 
-        .certificate-modal-overlay {
+        .project-modal-overlay {
           position: fixed;
           inset: 0;
           background: rgba(0,0,0,0.8);
@@ -206,24 +201,21 @@ export default function CertificateModal() {
           align-items: center;
           justify-content: center;
           z-index: 999;
+          padding: 1rem;
         }
 
-        .certificate-modal-content {
+        .project-modal {
           background: #0f172a;
           padding: 24px;
           border-radius: 18px;
           max-width: 1200px;
           width: 90%;
+          max-height: 90vh;
+          overflow-y: auto;
           position: relative;
         }
 
-        .modal-image {
-          width: 100%;
-          height: auto;
-          object-fit: contain;
-        }
-
-        .certificate-close-btn {
+        .close-btn {
           position: absolute;
           top: 14px;
           right: 16px;
@@ -233,16 +225,44 @@ export default function CertificateModal() {
           color: #fff;
           cursor: pointer;
         }
+
+        .project-modal h3 {
+          color: #6c7cff;
+          margin-bottom: 20px;
+          font-size: 1.5rem;
+        }
+
+        .gallery-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .modal-image {
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+          border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+          .project-modal {
+            padding: 16px;
+            width: 95%;
+            max-height: 95vh;
+          }
+
+          .modal-image {
+            max-height: 50vh;
+          }
+
+          .close-btn {
+            font-size: 20px;
+            top: 10px;
+            right: 12px;
+          }
+        }
       `}</style>
     </>
-  );
-}
-
-function Content({ title, description }) {
-  return (
-    <div className="timeline-content">
-      <h3>{title}</h3>
-      <p>{description}</p>
-    </div>
   );
 }

@@ -124,6 +124,60 @@ html {
   left: 30%;
 }
 
+/* STAR CONSTELLATION */
+.star-constellation {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 40vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.8;
+  mix-blend-mode: screen;
+}
+
+@media (max-width: 1024px) {
+  .star-constellation {
+    display: none !important;
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  .star-constellation {
+    display: none !important;
+    visibility: hidden;
+  }
+}
+
+/* CERTIFICATE CONSTELLATION */
+.certificate-constellation {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 40vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.9;
+  mix-blend-mode: screen;
+}
+
+@media (max-width: 1024px) {
+  .certificate-constellation {
+    display: none !important;
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  .certificate-constellation {
+    display: none !important;
+    visibility: hidden;
+  }
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
@@ -1538,7 +1592,7 @@ body::before {
 .certificate-image {
   position: relative;
   width: 100%;
-  padding-bottom: 60%;
+  padding-bottom: 45%; /* Reduced from 60% to 45% for smaller height */
   overflow: hidden;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 16px;
@@ -1979,6 +2033,10 @@ body::before {
 }
 
 @media (max-width: 768px) {
+  .certificate-strip {
+    padding: 2rem 0; /* Reduced from 2.5rem */
+  }
+  
   .certificate-strip-inner {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -1993,7 +2051,22 @@ body::before {
   }
 
   .cert-box {
-    flex: 0 0 200px;
+    flex: 0 0 180px; /* Reduced from 200px */
+  }
+}
+
+@media (max-width: 480px) {
+  .certificate-strip {
+    padding: 1.5rem 0; /* Further reduced */
+  }
+  
+  .cert-box {
+    flex: 0 0 130px; /* Reduced from 150px */
+  }
+
+  .certificate-strip-inner {
+    gap: 0.75rem;
+    padding: 0 0.75rem;
   }
 }
 /* MODAL */
@@ -2103,4 +2176,83 @@ body::before {
   max-height: 90%;
   object-fit: contain;
   border-radius: 12px;
+}
+
+/* PROJECTS TIMELINE LAYOUT */
+.projects-timeline {
+  position: relative;
+  padding: 80px 0;
+}
+
+/* The vertical "pathway" for the constellation */
+.projects-timeline::after {
+  content: '';
+  position: absolute;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.timeline-item {
+  display: flex;
+  justify-content: flex-start; /* Default for 'left' */
+  width: 100%;
+  margin-bottom: 100px;
+}
+
+.timeline-item.right {
+  justify-content: flex-end; /* Push card to the right */
+}
+
+.project-card {
+  width: 45%; /* Keep space for the zig-zag lines */
+  position: relative;
+  z-index: 10;
+}
+
+/* Timeline dots for constellation */
+.timeline-dot {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: var(--primary-color);
+  border: 4px solid var(--dark-bg);
+  border-radius: 50%;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Position dots for left and right items */
+.timeline-item .timeline-dot {
+  left: 50%;
+  margin-left: -8px;
+}
+
+.timeline-item.right .timeline-dot {
+  right: auto;
+  left: 50%;
+  margin-left: -8px;
+}
+
+/* Mobile responsive for timeline */
+@media screen and (max-width: 768px) {
+  .timeline-item {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 60px;
+  }
+  
+  .project-card {
+    width: 90% !important;
+  }
+  
+  .timeline-dot {
+    position: static !important;
+    margin: 20px 0;
+    transform: none;
+  }
 }
