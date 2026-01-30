@@ -87,7 +87,7 @@ export default function Home() {
 
           <div className="about-content">
             <p>
-              My name is Guddu Kumar (nickname ansh thakur). I have completed my 12th grade in the Commerce stream
+              My name is Guddu Kumar (nickname ansh thakur) I am 17 years old . I have completed my 12th grade in the Commerce stream
               from HBSE (Haryana State Board). I am passionate about robotics and technology.
               I have skills in mobile app development and website development. Along with
               this, I enjoy repairing electrical and electronic devices.
