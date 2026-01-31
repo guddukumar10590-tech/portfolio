@@ -2181,7 +2181,7 @@ body::before {
 /* PROJECTS TIMELINE LAYOUT */
 .projects-timeline {
   position: relative;
-  padding: 80px 0;
+  padding: 50px 0;
 }
 
 /* The vertical "pathway" for the constellation */

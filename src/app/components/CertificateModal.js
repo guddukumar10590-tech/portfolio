@@ -7,50 +7,44 @@ const CERTIFICATES = [
   {
     id: 1,
     image: '/certificates/cert1.jpeg',
-    position: 'left',
     title: 'Robotics Classes Certificate',
-    description:
-      'Completed specialized Robotics training in Grade 9, focusing on mechanical assembly and basic programming concepts.'
+    description: 'Completed specialized Robotics training in Grade 9, focusing on mechanical assembly and basic programming concepts.',
+    offset: '10%' // Horizontal offset for "constellation" look
   },
   {
     id: 2,
     image: '/certificates/cert2.jpeg',
-    position: 'right',
     title: 'AgriConnect – Gardening Community App',
-    description:
-      'AgriConnect connects urban gardeners to exchange items for free and access paid services like gardening advice, garden management, kitchen, terrace, and vertical gardening setups. 🏆 Achievement: Secured 100K+ funding from the Haryana Government.'
+    description: 'AgriConnect connects urban gardeners to exchange items for free. 🏆 Achievement: Secured 100K+ funding from the Haryana Government.',
+    offset: '-15%'
   },
   {
     id: 3,
     image: '/certificates/cert3.jpeg',
-    position: 'left',
     title: 'Smart Garbage Segregation Bin',
-    description:
-      'Built a smart garbage bin that automatically segregates plastic, metal, and biodegradable waste using sensors. 🏆 Achievement: 1st Place at Block Level for innovation and real-world impact.'
+    description: 'Built a smart garbage bin that automatically segregates plastic, metal, and biodegradable waste. 🏆 1st Place at Block Level.',
+    offset: '12%'
   },
   {
     id: 4,
     image: '/certificates/cert4.jpeg',
-    position: 'right',
     title: "Children's Safety Smart Shoe",
-    description:
-      'Designed a GPS-enabled smart safety shoe with two emergency buttons: one for instant emergency calls and another for live location sharing. Parents can track the child anytime for enhanced safety.'
+    description: 'Designed a GPS-enabled smart safety shoe with emergency buttons and live location sharing.',
+    offset: '-8%'
   },
   {
     id: 5,
     image: '/certificates/cert5.jpeg',
-    position: 'left',
     title: 'Smart Home Automation',
-    description:
-      'Developed an IoT-based home automation system enabling remote control of lighting, appliances, and security for improved energy efficiency.'
+    description: 'Developed an IoT-based home automation system enabling remote control for improved energy efficiency.',
+    offset: '15%'
   },
   {
     id: 6,
     image: '/certificates/cert6.jpeg',
-    position: 'right',
     title: 'Smart Home Security & Automation System',
-    description:
-      'Presented at State Level (Haryana). Features include automatic door locking, remote appliance control from anywhere in India, theft detection, and gas leak alerts.'
+    description: 'Presented at State Level. Features include theft detection, gas leak alerts, and remote appliance control.',
+    offset: '-5%'
   }
 ];
 
@@ -69,84 +63,163 @@ export default function CertificateModal() {
 
   return (
     <>
-      <div className="projects-timeline">
-        {CERTIFICATES.map(cert => (
-          <ScrollReveal key={cert.id}>
-            <div className={`timeline-item ${cert.position}`}>
-              
-              <div
-                className="timeline-card project-card"
-                onClick={() => setActiveId(cert.id)}
-                style={{ cursor: "pointer" }}
+      <div className="constellation-container">
+        {/* Background stars */}
+        <div className="star-field"></div>
+        
+        <div className="projects-wrapper">
+          {CERTIFICATES.map((cert, index) => (
+            <ScrollReveal key={cert.id}>
+              <div 
+                className="constellation-item" 
+                style={{ '--offset': cert.offset, '--delay': `${index * 0.2}s` }}
               >
-                <div className="project-image">
-                  <img 
-                    src={cert.image} 
-                    alt={cert.title} 
-                    className="constellation-node"
-                  />
+                {/* Connecting Line (Hidden on mobile) */}
+                {index < CERTIFICATES.length - 1 && (
+                  <div className="connector-line"></div>
+                )}
+
+                <div className="star-node">
+                   <div className="pulse-ring"></div>
                 </div>
 
-                <div className="project-content">
-                  <h3>{cert.title}</h3>
-                  <p>{cert.description}</p>
+                <div
+                  className="project-card"
+                  onClick={() => setActiveId(cert.id)}
+                >
+                  <div className="project-image">
+                    <img src={cert.image} alt={cert.title} />
+                  </div>
+                  <div className="project-content">
+                    <h3>{cert.title}</h3>
+                    <p>{cert.description}</p>
+                  </div>
                 </div>
               </div>
-
-              <div className="timeline-dot"></div>
-            </div>
-          </ScrollReveal>
-        ))}
+            </ScrollReveal>
+          ))}
+        </div>
       </div>
 
+      {/* Modal logic remains same */}
       {activeCert && (
-        <div
-          className="project-modal-overlay"
-          onClick={() => setActiveId(null)}
-        >
-          <div
-            className="project-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="close-btn"
-              onClick={() => setActiveId(null)}
-            >
-              ✕
-            </button>
-
+        <div className="project-modal-overlay" onClick={() => setActiveId(null)}>
+          <div className="project-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setActiveId(null)}>✕</button>
             <h3>{activeCert.title}</h3>
-
             <div className="gallery-grid">
-              <img
-                src={activeCert.image}
-                alt={activeCert.title}
-                className="modal-image"
-              />
+              <img src={activeCert.image} alt={activeCert.title} className="modal-image" />
             </div>
           </div>
         </div>
       )}
 
       <style jsx>{`
-        .project-card {
-          background: rgba(30, 41, 59, 0.7);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 20px;
+        .constellation-container {
+          position: relative;
+          padding: 80px 20px;
+          background: #020617; /* Deep space color */
           overflow: hidden;
-          transition: transform 0.3s ease;
+        }
+
+        /* Twinkling star background */
+        .star-field {
+          position: absolute;
+          inset: 0;
+          background-image: 
+            radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+            radial-gradient(1.5px 1.5px at 90px 40px, #fff, rgba(0,0,0,0));
+          background-size: 200px 200px;
+          opacity: 0.3;
+        }
+
+        .projects-wrapper {
+          max-width: 1000px;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          gap: 120px;
+          position: relative;
+        }
+
+        .constellation-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: relative;
+          transform: translateX(var(--offset));
+          transition: transform 0.5s ease;
+        }
+
+        /* The Star Node */
+        .star-node {
+          width: 12px;
+          height: 12px;
+          background: #6c7cff;
+          border-radius: 50%;
+          box-shadow: 0 0 15px #6c7cff, 0 0 30px #6c7cff;
+          margin-bottom: 2rem;
+          position: relative;
+          z-index: 10;
+        }
+
+        .pulse-ring {
+          position: absolute;
+          inset: -10px;
+          border: 2px solid #6c7cff;
+          border-radius: 50%;
+          animation: pulse 2s infinite;
+          opacity: 0;
+        }
+
+        @keyframes pulse {
+          0% { transform: scale(0.5); opacity: 0.8; }
+          100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* Jagged Connecting Line */
+        .connector-line {
+          position: absolute;
+          top: 12px;
+          left: 50%;
+          width: 2px;
+          height: 180px;
+          background: linear-gradient(to bottom, #6c7cff, transparent);
+          transform: rotate(15deg); /* Angles the connection */
+          transform-origin: top;
+          z-index: 1;
+          opacity: 0.4;
+        }
+
+        /* Hovering Card Effect */
+        .project-card {
+          background: rgba(15, 23, 42, 0.6);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(108, 124, 255, 0.2);
+          border-radius: 24px;
+          width: 100%;
+          max-width: 400px;
+          cursor: pointer;
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          animation: float 6s ease-in-out infinite;
+          animation-delay: var(--delay);
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
         }
 
         .project-card:hover {
-          transform: translateY(-5px);
-          border-color: var(--primary-color);
+          transform: scale(1.05) translateY(-10px) !important;
+          border-color: #6c7cff;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(108, 124, 255, 0.2);
         }
 
         .project-image {
-          position: relative;
-          width: 100%;
-          height: 200px;
+          height: 180px;
+          border-radius: 24px 24px 0 0;
           overflow: hidden;
         }
 
@@ -154,112 +227,78 @@ export default function CertificateModal() {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image img {
+          transform: scale(1.1);
         }
 
         .project-content {
-          padding: 20px;
-          color: #fff;
+          padding: 24px;
         }
 
         .project-content h3 {
-          font-size: 1.25rem;
-          font-weight: 600;
-          margin-bottom: 12px;
-          color: #6c7cff;
+          color: #fff;
+          margin-bottom: 8px;
+          font-size: 1.2rem;
         }
 
         .project-content p {
-          font-size: 0.95rem;
-          line-height: 1.65;
-          opacity: 0.9;
+          color: #94a3b8;
+          font-size: 0.9rem;
+          line-height: 1.5;
         }
 
-        /* Mobile Responsive */
-        @media screen and (max-width: 768px) {
-          .timeline-item {
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 60px;
-          }
-          
-          .project-card {
-            width: 90% !important;
-          }
-          
-          .timeline-dot {
-            position: static !important;
-            margin: 20px 0;
-            transform: none;
-          }
-        }
-
+        /* Modal Styles */
         .project-modal-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(0,0,0,0.8);
+          background: rgba(2, 6, 23, 0.9);
           display: flex;
           align-items: center;
           justify-content: center;
-          z-index: 999;
-          padding: 1rem;
+          z-index: 1000;
+          backdrop-filter: blur(8px);
         }
 
         .project-modal {
           background: #0f172a;
-          padding: 24px;
-          border-radius: 18px;
-          max-width: 1200px;
+          padding: 30px;
+          border-radius: 24px;
           width: 90%;
-          max-height: 90vh;
-          overflow-y: auto;
+          max-width: 800px;
           position: relative;
-        }
-
-        .close-btn {
-          position: absolute;
-          top: 14px;
-          right: 16px;
-          font-size: 22px;
-          background: none;
-          border: none;
-          color: #fff;
-          cursor: pointer;
-        }
-
-        .project-modal h3 {
-          color: #6c7cff;
-          margin-bottom: 20px;
-          font-size: 1.5rem;
-        }
-
-        .gallery-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 10px;
+          border: 1px solid #6c7cff;
         }
 
         .modal-image {
           width: 100%;
-          height: auto;
-          object-fit: contain;
-          border-radius: 8px;
+          border-radius: 12px;
+          margin-top: 15px;
         }
 
+        .close-btn {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          color: #fff;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+        }
+
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
-          .project-modal {
-            padding: 16px;
-            width: 95%;
-            max-height: 95vh;
+          .constellation-item {
+            transform: translateX(0); /* Remove offset on mobile for better fit */
           }
-
-          .modal-image {
-            max-height: 50vh;
+          .connector-line {
+            display: none;
           }
-
-          .close-btn {
-            font-size: 20px;
-            top: 10px;
-            right: 12px;
+          .projects-wrapper {
+            gap: 60px;
           }
         }
       `}</style>
